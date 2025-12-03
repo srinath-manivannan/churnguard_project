@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block page_title %}Welcome to ChurnGuard AI{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <i class="fas fa-shield-alt"></i>
+            ChurnGuard AI
+        </h1>
+        <p class="hero-subtitle">AI-Powered Customer Retention Platform</p>
+        <p class="hero-description">
+            Predict customer churn before it happens. Engage at-risk customers automatically. 
+            Increase retention and revenue with intelligent insights.
+        </p>
+        
+        <div class="cta-buttons">
+            <a href="/upload" class="btn btn-primary">
+                <i class="fas fa-upload"></i> Upload Customer Data
+            </a>
+            <a href="/dashboard" class="btn btn-secondary">
+                <i class="fas fa-chart-line"></i> View Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-brain"></i>
+        </div>
+        <h3>AI Churn Prediction</h3>
+        <p>Advanced machine learning models identify customers likely to churn based on behavioral patterns.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <h3>Natural Language Chatbot</h3>
+        <p>Ask questions about your customers in plain English. Get instant insights and recommendations.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-paper-plane"></i>
+        </div>
+        <h3>Automated Campaigns</h3>
+        <p>Reach at-risk customers automatically through email, SMS, and calls with personalized messages.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-smile"></i>
+        </div>
+        <h3>Sentiment Analysis</h3>
+        <p>Understand customer feedback and sentiment to identify root causes of churn.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-chart-pie"></i>
+        </div>
+        <h3>Advanced Analytics</h3>
+        <p>Track churn trends, campaign performance, and revenue at risk with beautiful dashboards.</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-dollar-sign"></i>
+        </div>
+        <h3>ROI Tracking</h3>
+        <p>Measure the impact of retention efforts on your bottom line with detailed revenue metrics.</p>
+    </div>
+</div>
+
+<div class="getting-started">
+    <h2>Getting Started</h2>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Upload Data</h3>
+            <p>Import your customer data via CSV or Excel file</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>AI Analysis</h3>
+            <p>Our AI automatically predicts churn risk for each customer</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Take Action</h3>
+            <p>Create targeted campaigns to re-engage at-risk customers</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Track Results</h3>
+            <p>Monitor retention improvements and revenue impact</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 60px;
+    color: white;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 3em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.hero-subtitle {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.hero-description {
+    font-size: 1.1em;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-primary {
+    background: white;
+    color: #667eea;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+.feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    transition: all 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    font-size: 3em;
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.feature-card p {
+    color: #718096;
+    line-height: 1.6;
+}
+
+.getting-started {
+    background: #f7fafc;
+    padding: 50px;
+    border-radius: 15px;
+    margin-top: 40px;
+}
+
+.getting-started h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 40px;
+    color: #2d3748;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.step {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: #667eea;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0 auto 15px;
+}
+
+.step h3 {
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.step p {
+    color: #718096;
+    font-size: 0.9em;
+}
+
+.step-arrow {
+    font-size: 2em;
+    color: #cbd5e0;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 20px;
+    }
+    
+    .hero-title {
+        font-size: 2em;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .steps {
+        flex-direction: column;
+    }
+    
+    .step-arrow {
+        transform: rotate(90deg);
+    }
+}
+</style>
+{% endblock %}

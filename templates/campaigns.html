@@ -1,0 +1,400 @@
+{% extends "base.html" %}
+
+{% block page_title %}Retention Campaigns{% endblock %}
+
+{% block content %}
+<div class="campaigns-header">
+    <h2><i class="fas fa-bullhorn"></i> Retention Campaigns</h2>
+    <button class="btn btn-primary" onclick="openCampaignModal()">
+        <i class="fas fa-plus"></i> Create Campaign
+    </button>
+</div>
+
+<div class="campaigns-grid">
+    {% if campaigns %}
+        {% for campaign in campaigns %}
+        <div class="campaign-card">
+            <div class="campaign-header">
+                <h3>{{ campaign.name }}</h3>
+                <span class="badge badge-{{ campaign.status }}">{{ campaign.status|title }}</span>
+            </div>
+            <p class="campaign-segment">
+                <i class="fas fa-crosshairs"></i> Target: {{ campaign.target_segment|title }}
+            </p>
+            <p class="campaign-date">
+                <i class="fas fa-calendar"></i> Created: {{ campaign.created_at[:10] }}
+            </p>
+            <button class="btn btn-execute" onclick="executeCampaign({{ campaign.id }})">
+                <i class="fas fa-play"></i> Execute Campaign
+            </button>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-campaigns">
+            <i class="fas fa-bullhorn"></i>
+            <h3>No Campaigns Yet</h3>
+            <p>Create your first retention campaign to start engaging at-risk customers.</p>
+            <button class="btn btn-primary" onclick="openCampaignModal()">
+                <i class="fas fa-plus"></i> Create Campaign
+            </button>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Campaign Creation Modal -->
+<div id="campaignModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create New Campaign</h2>
+            <button class="modal-close" onclick="closeCampaignModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="campaignForm">
+            <div class="form-group">
+                <label>Campaign Name</label>
+                <input type="text" name="name" required placeholder="e.g., Win-back High Risk Customers">
+            </div>
+            
+            <div class="form-group">
+                <label>Target Segment</label>
+                <select name="target_segment">
+                    <option value="high_risk">High Risk Customers</option>
+                    <option value="medium_risk">Medium Risk Customers</option>
+                    <option value="low_risk">Low Risk Customers</option>
+                    <option value="all">All Customers</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Channels</label>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="email" checked> Email
+                    </label>
+                    <label>
+                        <input type="checkbox" name="sms"> SMS
+                    </label>
+                    <label>
+                        <input type="checkbox" name="call"> Call
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Message Template</label>
+                <textarea name="message" rows="4" placeholder="Dear {customer_name}, we've noticed..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check"></i> Create Campaign
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+.campaigns-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.campaigns-header h2 {
+    margin: 0;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.campaigns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.campaign-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+}
+
+.campaign-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.campaign-header h3 {
+    margin: 0;
+    color: #2d3748;
+    flex: 1;
+}
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.badge-active {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.badge-draft {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.campaign-segment,
+.campaign-date {
+    color: #718096;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-execute {
+    width: 100%;
+    margin-top: 15px;
+    background: #48bb78;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-execute:hover {
+    background: #38a169;
+}
+
+.no-campaigns {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+}
+
+.no-campaigns i {
+    font-size: 4em;
+    color: #cbd5e0;
+    margin-bottom: 20px;
+}
+
+.no-campaigns h3 {
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.no-campaigns p {
+    color: #718096;
+    margin-bottom: 30px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 0;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #2d3748;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: #2d3748;
+}
+
+#campaignForm {
+    padding: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #667eea;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+}
+</style>
+
+<script>
+function openCampaignModal() {
+    document.getElementById('campaignModal').classList.add('active');
+}
+
+function closeCampaignModal() {
+    document.getElementById('campaignModal').classList.remove('active');
+}
+
+document.getElementById('campaignForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const channels = [];
+    if (formData.get('email')) channels.push('email');
+    if (formData.get('sms')) channels.push('sms');
+    if (formData.get('call')) channels.push('call');
+    
+    const data = {
+        name: formData.get('name'),
+        target_segment: formData.get('target_segment'),
+        channels: channels,
+        message: formData.get('message')
+    };
+    
+    try {
+        const response = await fetch('/api/campaigns/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Campaign created successfully!');
+            closeCampaignModal();
+            location.reload();
+        } else {
+            alert('Error creating campaign: ' + result.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+});
+
+async function executeCampaign(campaignId) {
+    if (!confirm('Execute this campaign? Messages will be sent to target customers.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/campaigns/${campaignId}/execute`, {
+            method: 'POST'
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert(result.message);
+        } else {
+            alert('Error: ' + result.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+}
+</script>
+{% endblock %}

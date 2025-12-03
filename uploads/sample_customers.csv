@@ -1,0 +1,11 @@
+name,email,phone,transaction_count,total_spent,last_transaction_date
+John Smith,john@example.com,+1-555-1234,15,2500.0,2024-11-15
+Jane Doe,jane@example.com,+1-555-5678,3,150.0,2024-08-20
+Michael Johnson,mike.j@example.com,+1-555-4433,27,4800.5,2024-12-01
+Emily Davis,emily.d@example.com,+1-555-9911,8,920.0,2024-10-10
+Robert Wilson,robert.w@example.com,+1-555-8833,2,75.0,2024-07-05
+Sophia Martinez,sophia.m@example.com,+1-555-3322,19,3100.25,2024-11-28
+Daniel Lee,daniel.lee@example.com,+1-555-7744,5,430.75,2024-09-18
+Olivia Brown,olivia.brown@example.com,+1-555-6655,12,2100.0,2024-10-30
+Chris Taylor,chris.t@example.com,+1-555-2211,1,45.0,2024-06-12
+Ava Thompson,ava.t@example.com,+1-555-9090,22,3800.9,2024-12-03

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ChurnGuard - AI Customer Retention{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>ChurnGuard</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                    <i class="fas fa-home"></i> Home
+                </a></li>
+                <li><a href="/dashboard" class="nav-link {% if request.path == '/dashboard' %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a></li>
+                <li><a href="/upload" class="nav-link {% if request.path == '/upload' %}active{% endif %}">
+                    <i class="fas fa-upload"></i> Upload Data
+                </a></li>
+                <li><a href="/chatbot" class="nav-link {% if request.path == '/chatbot' %}active{% endif %}">
+                    <i class="fas fa-comments"></i> AI Chatbot
+                </a></li>
+                <li><a href="/campaigns" class="nav-link {% if request.path == '/campaigns' %}active{% endif %}">
+                    <i class="fas fa-bullhorn"></i> Campaigns
+                </a></li>
+                <li><a href="/analytics" class="nav-link {% if request.path == '/analytics' %}active{% endif %}">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </a></li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <p>Powered by AI</p>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2>{% block page_title %}ChurnGuard AI{% endblock %}</h2>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Demo User</span>
+                </div>
+            </header>
+            
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

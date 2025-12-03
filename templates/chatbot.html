@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+
+{% block page_title %}AI Chatbot{% endblock %}
+
+{% block content %}
+<div class="chatbot-container">
+    <div class="chat-card">
+        <div class="chat-header">
+            <div class="chat-title">
+                <i class="fas fa-robot"></i>
+                <h2>ChurnGuard AI Assistant</h2>
+            </div>
+            <p class="chat-subtitle">Ask me anything about your customers</p>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <p>Hello! I'm your ChurnGuard AI assistant. I can help you with:</p>
+                    <ul>
+                        <li>Finding high-risk customers</li>
+                        <li>Analyzing churn rates</li>
+                        <li>Revenue insights</li>
+                        <li>Customer information</li>
+                    </ul>
+                    <p>What would you like to know?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <form id="chatForm" class="chat-form">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Type your question here..." 
+                    autocomplete="off"
+                    required
+                />
+                <button type="submit" class="btn-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="chat-suggestions">
+        <h3><i class="fas fa-lightbulb"></i> Quick Questions</h3>
+        <div class="suggestions-list">
+            <button class="suggestion-btn" onclick="sendMessage('Show me high-risk customers')">
+                <i class="fas fa-exclamation-triangle"></i> High-risk customers
+            </button>
+            <button class="suggestion-btn" onclick="sendMessage('What is our churn rate?')">
+                <i class="fas fa-chart-line"></i> Churn rate
+            </button>
+            <button class="suggestion-btn" onclick="sendMessage('How many customers do we have?')">
+                <i class="fas fa-users"></i> Total customers
+            </button>
+            <button class="suggestion-btn" onclick="sendMessage('Show me revenue statistics')">
+                <i class="fas fa-dollar-sign"></i> Revenue insights
+            </button>
+            <button class="suggestion-btn" onclick="sendMessage('Show recent customer activity')">
+                <i class="fas fa-clock"></i> Recent activity
+            </button>
+            <button class="suggestion-btn" onclick="sendMessage('Help')">
+                <i class="fas fa-question-circle"></i> Help
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.chatbot-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    height: calc(100vh - 200px);
+}
+
+.chat-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    padding: 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.chat-title h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.chat-subtitle {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    background: #f7fafc;
+}
+
+.message {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bot-message {
+    justify-content: flex-start;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.bot-message .message-avatar {
+    background: #667eea;
+    color: white;
+}
+
+.user-message .message-avatar {
+    background: #48bb78;
+    color: white;
+    order: 2;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 15px 20px;
+    border-radius: 12px;
+    line-height: 1.5;
+}
+
+.bot-message .message-content {
+    background: white;
+    border: 1px solid #e2e8f0;
+}
+
+.user-message .message-content {
+    background: #667eea;
+    color: white;
+}
+
+.message-content p {
+    margin: 0 0 10px 0;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+}
+
+.message-content ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.message-content li {
+    margin: 5px 0;
+}
+
+.chat-input-container {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+}
+
+.chat-form {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-form input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.chat-form input:focus {
+    border-color: #667eea;
+}
+
+.btn-send {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #667eea;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-send:hover {
+    background: #5a67d8;
+    transform: scale(1.05);
+}
+
+.chat-suggestions {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    height: fit-content;
+}
+
+.chat-suggestions h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.suggestion-btn {
+    padding: 12px 15px;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2d3748;
+}
+
+.suggestion-btn:hover {
+    background: #edf2f7;
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.suggestion-btn i {
+    font-size: 1.1em;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #a0aec0;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 968px) {
+    .chatbot-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .chat-card {
+        height: 500px;
+    }
+}
+</style>
+
+<script>
+const chatMessages = document.getElementById('chatMessages');
+const chatForm = document.getElementById('chatForm');
+const messageInput = document.getElementById('messageInput');
+
+chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = messageInput.value.trim();
+    if (message) {
+        await sendMessage(message);
+        messageInput.value = '';
+    }
+});
+
+async function sendMessage(message) {
+    // Add user message
+    addMessage(message, 'user');
+    
+    // Show typing indicator
+    const typingId = addTypingIndicator();
+    
+    try {
+        const response = await fetch('/chatbot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message })
+        });
+        
+        const result = await response.json();
+        
+        // Remove typing indicator
+        removeTypingIndicator(typingId);
+        
+        if (result.success) {
+            addMessage(result.response, 'bot');
+        } else {
+            addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+        }
+    } catch (error) {
+        removeTypingIndicator(typingId);
+        addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+    }
+}
+
+function addMessage(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}-message`;
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.innerHTML = type === 'bot' ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>';
+    
+    const content = document.createElement('div');
+    content.className = 'message-content';
+    content.innerHTML = text.replace(/\n/g, '<br>');
+    
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(content);
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addTypingIndicator() {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot-message';
+    messageDiv.id = 'typing-indicator';
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.innerHTML = '<i class="fas fa-robot"></i>';
+    
+    const content = document.createElement('div');
+    content.className = 'message-content';
+    content.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+    
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(content);
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    return 'typing-indicator';
+}
+
+function removeTypingIndicator(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.remove();
+    }
+}
+</script>
+{% endblock %}
