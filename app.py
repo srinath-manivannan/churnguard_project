@@ -258,15 +258,26 @@ def generate_sample():
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
-if __name__ == '__main__':
-    # Initialize database tables
+@app.before_first_request
+def init_app():
+    """Initialize database tables when the app starts (works on Render too)"""
     db_manager.initialize_database()
-    
-    # Run the application
+if __name__ == '__main__':
+    # Run the application locally
     print("="*60)
     print("ChurnGuard AI Platform Starting...")
     print("Access the application at: http://localhost:5000")
     print("="*60)
     app.run(debug=True, host='0.0.0.0', port=5000)
+
+
+# if __name__ == '__main__':
+#     # Initialize database tables
+#     db_manager.initialize_database()
+    
+#     # Run the application
+#     print("="*60)
+#     print("ChurnGuard AI Platform Starting...")
+#     print("Access the application at: http://localhost:5000")
+#     print("="*60)
+#     app.run(debug=True, host='0.0.0.0', port=5000)
