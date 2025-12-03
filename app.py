@@ -258,26 +258,20 @@ def generate_sample():
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-@app.before_first_request
-def init_app():
-    """Initialize database tables when the app starts (works on Render too)"""
+# Initialize database when app starts (Flask 3.0 compatible)
+with app.app_context():
     db_manager.initialize_database()
+
 if __name__ == '__main__':
-    # Run the application locally
+    # Get port from environment variable (for cloud deployment)
+    port = int(os.environ.get('PORT', 5000))
+    
+    # Run the application
     print("="*60)
     print("ChurnGuard AI Platform Starting...")
-    print("Access the application at: http://localhost:5000")
+    print(f"Access the application at: http://localhost:{port}")
     print("="*60)
-    app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-# if __name__ == '__main__':
-#     # Initialize database tables
-#     db_manager.initialize_database()
     
-#     # Run the application
-#     print("="*60)
-#     print("ChurnGuard AI Platform Starting...")
-#     print("Access the application at: http://localhost:5000")
-#     print("="*60)
-#     app.run(debug=True, host='0.0.0.0', port=5000)
+    # Use debug mode only in development
+    debug_mode = os.environ.get('FLASK_ENV') != 'production'
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)
