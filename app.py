@@ -78,8 +78,14 @@ def upload():
                     # Store in database
                     customers_added = db_manager.add_customers(result['data'])
                     
-                    # Generate churn predictions
-                    predictions = churn_predictor.predict_batch(result['data'])
+                    # 🔥 FIX: Fetch customers WITH database IDs
+                    with db_manager.get_connection() as conn:
+                        cursor = conn.cursor()
+                        cursor.execute('SELECT * FROM customers ORDER BY id DESC LIMIT ?', (customers_added,))
+                        customers_with_ids = [dict(row) for row in cursor.fetchall()]
+                    
+                    # Generate churn predictions with proper customer IDs
+                    predictions = churn_predictor.predict_batch(customers_with_ids)
                     db_manager.add_churn_scores(predictions)
                     
                     return jsonify({
@@ -258,6 +264,8 @@ def generate_sample():
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
 # Initialize database when app starts (Flask 3.0 compatible)
 with app.app_context():
     db_manager.initialize_database()
